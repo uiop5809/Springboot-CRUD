@@ -37,7 +37,7 @@
                     for(let d of data.data){
                         s+="<tr>"
                         s+="<td>"+d.no+"</td>"
-                        s+=`<td>`+d.title+"</td>"
+                        s+=`<td><a href="detail.html?no=${d.no}">`+d.title+"</a></td>"
                         s+="<td>"+d.author+"</td>"
                         s+="</tr>"
                     }

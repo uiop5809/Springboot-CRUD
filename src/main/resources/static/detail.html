@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>상세보기</title>
+    </head>
+    <body>
+        <h1>상세보기</h1>
+        <div><a href="board.html">게시물 목록</a></div>
+        <div>
+            <div>번호 : <span id="bd_no"></span></div>
+            <div>제목: <span id="bd_title"></span></div>
+            <div>작성자: <span id="bd_author"></span></div>
+            <div>작성일시: <span id="bd_regdate"></span></div>
+            <div>내용: <span id="bd_content"></span></div>
+        </div>
+        <div>
+            <a href="/update_form.html" id="upd">수정하기</a>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+        <script type="text/javascript">
+            let url = new URL( location.href );
+            let param = url.searchParams;
+            let no = param.get("no");
+            let href = $("#upd").attr("href")
+
+            $("#upd").attr("href", href+"?no="+no)
+            $.ajax({
+                url:"/board/detail/"+no,
+                success: function(data){
+                    $("#bd_no").html(data.data.no)
+                    $("#bd_title").html(data.data.title)
+                    $("#bd_content").html(data.data.content)
+                    $("#bd_author").html(data.data.author)
+                    $("#bd_regdate").html(data.data.regdate)
+                }
+            })
+        </script>
+    </body>
+</html>

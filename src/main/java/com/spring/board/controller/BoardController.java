@@ -62,6 +62,23 @@ public class BoardController {
         boardRepo.save(board);
         result.put("code", "ok");
         return result;
-
     }
+    
+    @PostMapping("/board/update")
+    @ResponseBody
+    public Map<String, Object> update(Board updateBoard){
+        Map<String, Object> result = new HashMap<>();
+        Optional<Board> bd = boardRepo.findById(updateBoard.getNo());
+        if (bd.isPresent()){
+            Board board = bd.get();
+            board.setTitle(updateBoard.getTitle());
+            board.setContent(updateBoard.getContent());
+            boardRepo.save(board);
+            result.put("code", "ok");
+        } else {
+            result.put("code", "error");
+            result.put("message", "없거나 삭제된 번호입니다.");
+        }
+        return result;
+    } 
 }

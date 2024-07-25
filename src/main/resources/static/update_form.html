@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>게시물수정</title>
+    </head>
+    <body>
+        <h1>게시물수정</h1>
+        <div>
+            <div><a href="board.html">게시물목록</a></div>
+            <form action="" id="bd_form">
+                <input type="hidden" id="bd_no" name="no" required="required"> <br>
+                <label for="bd_title">게시물제목</label>
+                <input type="text" id="bd_title" name="title" required="required"> <br>
+                <label for="bd_regdate">게시물작성일시</label>
+                <!-- 게시물 작성 일시는 서버로 전송이 안 되게 name 안 적어줌
+                // 스프링이 사용하는 datetime 문자열 형식 != 브라우저에서 보내는 날짜 형식 자동변환이 안 됨 -->
+                <input type="text" id="bd_regdate" readonly="readonly"> <br>
+                <label for="bd_author">게시물작성자</label>
+                <input type="text" id="bd_author" readonly="readonly"> <br>
+                <label for="bd_content">게시물내용</label>
+                <textarea rows="5" cols="60" id="bd_content" name="content" required="required"></textarea> <br>
+                <input type="submit" value="게시물등록">
+            </form>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+        <script type="text/javascript">
+            let url = new URL( location.href );
+            let param = url.searchParams;
+            let no = param.get("no");
+
+            $.ajax({
+                url:"/board/detail/"+no,
+                success: function(data){
+                    if(data.code=="error"){
+                        alert(data.message)
+                        history.back()
+                        return
+                    }
+                    $("#bd_no").val(data.data.no)
+                    $("#bd_title").val(data.data.title)
+                    $("#bd_content").val(data.data.content)
+                    $("#bd_author").val(data.data.author)
+                    $("#bd_regdate").val(data.data.regdate.substr(0,10))
+                }
+            })
+
+            $("#bd_form").submit(function(){
+            alert($("#bd_form").serialize())
+            $.ajax({
+                url:"/board/update",
+                type:"POST",
+                data: $("#bd_form").serialize(),
+                success:function(data){
+                    if(data.code == "ok"){
+                        location.href = "board.html";
+                    }
+                }
+            })
+            return false;
+	});
+
+        </script>
+    </body>
+</html>
