@@ -23,24 +23,24 @@ public class MemberController {
     @PostMapping("/member/login")
     @ResponseBody
     public Map<String, Object> login(
-            @RequestParam("id") String id,
+            @RequestParam("memberId") String memberId,
             @RequestParam("pw") String pw,
             HttpSession session){
         HashMap<String, Object> result = new HashMap<>();
         result.put("code", "error");
 
-        Optional<Member> member = memberRepo.findById(id);
+        Optional<Member> member = memberRepo.findById(memberId);
         if(member.isPresent()) {
             Member m = member.get();
             if(m.getPw().equals(pw)) {
                 result.put("code", "ok");
-                result.put("message", "로그인완료");
+                result.put("message", "로그인 완료");
                 session.setAttribute("member", m);
             } else {
                 result.put("message", "암호 틀림");
             }
         } else {
-            result.put("message", "업거나 삭제된 id");
+            result.put("message", "없거나 삭제된 id");
         }
         System.out.println(result);
         return result;
@@ -64,7 +64,7 @@ public class MemberController {
         // 이로써 session에 저장했던 모든 정보를 없애버리니 로그인 안 된 상태로 바꾸는 것
         session.invalidate(); // 로그인 정보 삭제
         result.put("code", "ok");
-        result.put("message", message + "로그아웃완료");
+        result.put("message", message + "로그아웃 완료");
 
         System.out.println(result);
         return result;

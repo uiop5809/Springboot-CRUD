@@ -14,6 +14,6 @@ import lombok.ToString;
 @Table(name = "mymember")
 public class Member {
     @Id
-    private String id;
+    private String memberId;
     private String name, pw, tel, email;
 }

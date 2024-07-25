@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>로그인화면</title>
+    </head>
+    <body>
+    <h1>로그인화면</h1>
+    <div>
+        <form id="login_form" action="/member/login" method="post">
+            <input type="text" id="mid" name="memberId"> <br>
+            <input type="password" id="mpwd" name="pw"> <br>
+            <input type="submit" value="로그인">
+        </form>
+        <div>
+            <a href="/member_reg.html">회원가입</a>
+        </div>
+        <div>
+            <a href="#" id="check_login">로그인여부 확인</a>
+        </div>
+        <div>
+            <a href="#" id="logout">로그아웃하기</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+    <script type="text/javascript">
+        $("#login_form").submit(function(){
+            $.ajax({
+                url:"/member/login",
+                method:"POST",
+                data: $("#login_form").serialize(),
+                success:function(data){
+                    alert(data.code + "," + data.message)
+                }
+            })
+
+            return false;
+        });
+        //로그인여부 확인
+        $("#check_login").click(function(){
+            $.ajax({
+                url:"/member/check_login",
+                success:function(data){
+                    alert(data.code + "," + data.message)
+                }
+            })
+
+            return false;
+        })
+        //로그아웃하기
+        $("#logout").click(function(){
+            $.ajax({
+                url:"/member/logout",
+                success:function(data){
+                    alert(data.code + "," + data.message)
+                }
+            })
+
+            return false;
+        })
+    </script>
+    </body>
+</html>
