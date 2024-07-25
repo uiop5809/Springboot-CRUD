@@ -16,6 +16,7 @@
         </div>
         <div>
             <a href="/update_form.html" id="upd">수정하기</a>
+            <a href="#" id="dlt">삭제하기</a>
         </div>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
         <script type="text/javascript">
@@ -35,6 +36,22 @@
                     $("#bd_regdate").html(data.data.regdate)
                 }
             })
+
+            $("#dlt").click(function(){
+                let ans = confirm("진짜로 지우시겠습니까?")
+                if(ans){
+                    $.ajax({
+                        url:"/board/delete/"+no,
+                        success:function(data){
+                            if(data.code == "ok"){
+                                location.href = "board.html";
+                            }
+                        }
+                     })
+                    return false;
+                }
+            })
+
         </script>
     </body>
 </html>

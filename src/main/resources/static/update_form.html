@@ -20,7 +20,7 @@
                 <input type="text" id="bd_author" readonly="readonly"> <br>
                 <label for="bd_content">게시물내용</label>
                 <textarea rows="5" cols="60" id="bd_content" name="content" required="required"></textarea> <br>
-                <input type="submit" value="게시물등록">
+                <input type="submit" value="게시물수정">
             </form>
         </div>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
@@ -53,7 +53,7 @@
                 data: $("#bd_form").serialize(),
                 success:function(data){
                     if(data.code == "ok"){
-                        location.href = "board.html";
+                        location.href = "detail.html?no=" + no;
                     }
                 }
             })

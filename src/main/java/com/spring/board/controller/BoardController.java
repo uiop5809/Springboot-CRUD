@@ -80,5 +80,20 @@ public class BoardController {
             result.put("message", "없거나 삭제된 번호입니다.");
         }
         return result;
-    } 
+    }
+
+    @GetMapping("/board/delete/{no}")
+    @ResponseBody
+    public Map<String, Object> delete(@PathVariable("no") int no) {
+        Map<String, Object> result = new HashMap<>();
+        Optional<Board> board = boardRepo.findById((no));
+        if(board.isPresent()){
+            boardRepo.deleteById(no);
+            result.put("code", "ok");
+        } else {
+            result.put("code", "error");
+            result.put("message", "없거나 삭제된 번호입니다.");
+        }
+        return result;
+    }
 }
