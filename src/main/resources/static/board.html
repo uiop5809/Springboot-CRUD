@@ -1,27 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>웹게시판</title>
-</head>
-<body>
-<h1>웹게시판</h1>
-<div>
-    <div><a href="reg.html">게시물등록</a></div>
-    <div>게시물갯수: <span id="count"></span></div>
-</div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
-<script type="text/javascript">
-    $.ajax({
-        url:"/board/count",
-        success:function(data){
-            if(data.code == "error"){
-                alert("오류발생:" + data.message)
-                return
-            }
-            $("#count").html(data.data)
-        }
-    })
-</script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>웹게시판</title>
+    </head>
+    <body>
+        <h1>웹게시판</h1>
+        <div>
+            <div><a href="reg.html">게시물등록</a></div>
+            <div>게시물갯수: <span id="count"></span></div>
+            <table>
+                <thead>
+                <tr>
+                    <th>번호</th><th>제목</th><th>작성자</th>
+                </tr>
+                </thead>
+                <tbody id="bd_body"></tbody>
+            </table>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
+        <script type="text/javascript">
+            $.ajax({
+                url:"/board/count",
+                success:function(data){
+                    if(data.code == "error"){
+                        alert("오류발생:" + data.message)
+                        return
+                    }
+                    $("#count").html(data.data)
+                }
+            })
+            $.ajax({
+                url:"/board/list",
+                success:function(data){
+                    let s = "";
+                    for(let d of data.data){
+                        s+="<tr>"
+                        s+="<td>"+d.no+"</td>"
+                        s+=`<td>`+d.title+"</td>"
+                        s+="<td>"+d.author+"</td>"
+                        s+="</tr>"
+                    }
+                    $("#bd_body").html(s)
+                }
+            })
+        </script>
+    </body>
 </html>
